@@ -17,7 +17,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gookit/filter v1.1.4 // indirect
-	github.com/gookit/goutil v0.5.15 // indirect
+	github.com/gookit/goutil v0.6.0 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
