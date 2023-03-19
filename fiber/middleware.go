@@ -1,6 +1,7 @@
 package fiber
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/whatsauth/watoken"
 )
@@ -22,13 +23,18 @@ func InitAuthMiddleware(publicKey string, privateKey string, authHeader string, 
 }
 
 func (auth *AuthMiddleware) DecodeToken(ctx *fiber.Ctx) (err error) {
-	tokenString := ctx.Get("Login")
+	tokenString := ctx.Get(auth.AuthHeader)
+
+	if tokenString == "" {
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Sprintf("Missing %s Header", auth.AuthHeader))
+	}
+
 	payload, err := watoken.Decode(auth.PublicKey, tokenString)
 	if err != nil {
 		return fiber.NewError(fiber.StatusUnauthorized, "Unauthorize Token")
 	}
 
-	ctx.Set("ID", payload.Id)
+	ctx.Set(auth.AuthHeaderDecode, payload.Id)
 	err = ctx.Next()
 	return
 }
