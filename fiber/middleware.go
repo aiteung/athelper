@@ -13,7 +13,14 @@ type AuthMiddleware struct {
 	AuthHeaderDecode string
 }
 
-func InitAuthMiddleware(publicKey string, privateKey string, authHeader string, authHeaderDecode string) *AuthMiddleware {
+func NewAuthMiddleware(publicKey string, privateKey string, authHeader string, authHeaderDecode string) *AuthMiddleware {
+	if authHeader == "" {
+		authHeader = "Login"
+	}
+	if authHeaderDecode == "" {
+		authHeader = "Token"
+	}
+
 	return &AuthMiddleware{
 		PublicKey:        publicKey,
 		PrivateKey:       privateKey,
