@@ -2,6 +2,7 @@ package fiber
 
 import (
 	"fmt"
+	at "github.com/aiteung/athelper"
 	"github.com/gofiber/fiber/v2"
 	"github.com/whatsauth/watoken"
 )
@@ -41,7 +42,7 @@ func (auth *AuthMiddleware) DecodeToken(ctx *fiber.Ctx) (err error) {
 		return fiber.NewError(fiber.StatusUnauthorized, "Unauthorize Token")
 	}
 
-	ctx.Set(auth.AuthHeaderDecode, payload.Id)
+	ctx.Locals(auth.AuthHeaderDecode, at.AddObsToken(payload.Id))
 	err = ctx.Next()
 	return
 }
