@@ -22,11 +22,11 @@ func AddObsToken(token string) string {
 	return obsString + token
 }
 
-func ConvertWithJSON[req any, res any](data req, result res) (err error) {
+func ConvertWithJSON[req any, res any](data *req, result *res) (err error) {
 	datamarshal, err := json.Marshal(data)
 	if err != nil {
 		return
 	}
-	err = json.Unmarshal(datamarshal, &result)
+	err = json.Unmarshal(datamarshal, result)
 	return
 }
