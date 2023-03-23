@@ -11,6 +11,7 @@ func ErrHandler(ctx *fiber.Ctx, err error) error {
 		Code:    fiber.StatusInternalServerError,
 		Success: false,
 		Data:    nil,
+		Status:  "Internal Server Error",
 	}
 
 	fmt.Printf("%s", err.Error())
