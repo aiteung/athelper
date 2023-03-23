@@ -29,7 +29,7 @@ func NewAuthMiddleware(
 	}
 
 	if salt == "" {
-		salt = "+-*/"
+		salt = "+"
 	}
 
 	return &AuthMiddleware{
