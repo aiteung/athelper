@@ -2,24 +2,25 @@ package athelper
 
 import (
 	"github.com/goccy/go-json"
-	"os"
+	"math/rand"
 	"strings"
 )
 
-func ReplaceTokenObs(token string) string {
-	obsString := os.Getenv("OBSSTRING")
-	if obsString == "" {
-		obsString = "+"
+func ReplaceTokenObs(obfuscated string, salt string) (res string) {
+	if salt == "" {
+		salt = "+"
 	}
-	return strings.ReplaceAll(token, obsString, "")
+	res = strings.ReplaceAll(obfuscated, salt, "")
+	return
 }
 
-func AddObsToken(token string) string {
-	obsString := os.Getenv("OBSSTRING")
-	if obsString == "" {
-		obsString = "+"
+func AddObsToken(token string, salt string) (res string) {
+	if salt == "" {
+		salt = "+"
 	}
-	return obsString + token
+	pos := rand.Intn(len(token))
+	res = strings.Join([]string{token[:pos], salt, token[pos:]}, "")
+	return
 }
 
 func ConvertWithJSON[req any, res any](data *req, result *res) (err error) {

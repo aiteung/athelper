@@ -12,9 +12,15 @@ type AuthMiddleware struct {
 	PrivateKey       string
 	AuthHeader       string
 	AuthHeaderDecode string
+	Salt             string
 }
 
-func NewAuthMiddleware(publicKey string, privateKey string, authHeader string, authHeaderDecode string) *AuthMiddleware {
+func NewAuthMiddleware(
+	publicKey string,
+	privateKey string,
+	authHeader string,
+	authHeaderDecode string,
+	salt string) *AuthMiddleware {
 	if authHeader == "" {
 		authHeader = "Login"
 	}
@@ -22,11 +28,16 @@ func NewAuthMiddleware(publicKey string, privateKey string, authHeader string, a
 		authHeader = "Token"
 	}
 
+	if salt == "" {
+		salt = "+-*/"
+	}
+
 	return &AuthMiddleware{
 		PublicKey:        publicKey,
 		PrivateKey:       privateKey,
 		AuthHeader:       authHeader,
 		AuthHeaderDecode: authHeaderDecode,
+		Salt:             salt,
 	}
 }
 
@@ -42,7 +53,7 @@ func (auth *AuthMiddleware) DecodeToken(ctx *fiber.Ctx) (err error) {
 		return fiber.NewError(fiber.StatusUnauthorized, "Unauthorize Token")
 	}
 
-	ctx.Locals(auth.AuthHeaderDecode, at.AddObsToken(payload.Id))
+	ctx.Locals(auth.AuthHeaderDecode, at.AddObsToken(payload.Id, auth.Salt))
 	err = ctx.Next()
 	return
 }
