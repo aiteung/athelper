@@ -9,6 +9,6 @@ type ReturnData[T any] struct {
 	Data    T      `json:"data"`
 }
 
-func (rcv *ReturnData[T]) WriteResponseBody(ctx *fiber.Ctx) error {
+func (rcv ReturnData[T]) WriteResponseBody(ctx *fiber.Ctx) error {
 	return ctx.Status(rcv.Code).JSON(rcv)
 }
