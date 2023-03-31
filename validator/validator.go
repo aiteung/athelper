@@ -25,9 +25,9 @@ func ParseAndValidatePlayGround[T any](body []byte, data *T) (err error) {
 		return
 	}
 	err = playval.New().Struct(data)
-	validationErrors := err.(playval.ValidationErrors)
-	if validationErrors != nil {
-		err = fmt.Errorf("%s", validationErrors.Error())
+	if err != nil {
+		validationErrors := err.(playval.ValidationErrors)
+		err = fmt.Errorf("validation Error : %s", validationErrors.Error())
 		return
 	}
 	return
