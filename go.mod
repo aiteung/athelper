@@ -3,7 +3,7 @@ module github.com/aiteung/athelper
 go 1.20
 
 require (
-	github.com/go-playground/validator/v10 v10.12.0
+	github.com/go-playground/validator/v10 v10.13.0
 	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
 	github.com/goccy/go-json v0.10.2
 	github.com/gofiber/fiber/v2 v2.43.0
@@ -21,7 +21,7 @@ require (
 	github.com/gookit/filter v1.1.4 // indirect
 	github.com/gookit/goutil v0.6.7 // indirect
 	github.com/klauspost/compress v1.16.3 // indirect
-	github.com/leodido/go-urn v1.2.2 // indirect
+	github.com/leodido/go-urn v1.2.3 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.18 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
