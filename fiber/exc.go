@@ -5,6 +5,8 @@ import (
 	"github.com/go-playground/validator/v10"
 	gjson "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gookit/validate"
+	"strings"
 )
 
 func CustomErrorHandler(defErrHan func(err error) error) func(*fiber.Ctx, error) error {
@@ -74,18 +76,25 @@ func ErrHandler(ctx *fiber.Ctx, err error) error {
 		Data:    nil,
 		Status:  "Internal Server Error",
 	}
+	vb := strings.Builder{}
+	vb.WriteString("Error when Validating")
 
 	switch e := err.(type) {
 	case *fiber.Error:
 		response.Code = e.Code
 		response.Status = e.Message
-	case validator.ValidationErrors:
-		strFinal := "Error terjadi pada field :"
-		for _, v := range e {
-			strFinal += fmt.Sprintf(" %s", v.Field())
+	case validate.Errors:
+		for k, _ := range e {
+			vb.WriteString(fmt.Sprintf(" %s", k))
 		}
 		response.Code = fiber.StatusBadRequest
-		response.Status = strFinal
+		response.Status = vb.String()
+	case validator.ValidationErrors:
+		for _, v := range e {
+			vb.WriteString(fmt.Sprintf(" %s", v.Field()))
+		}
+		response.Code = fiber.StatusBadRequest
+		response.Status = vb.String()
 	case *gjson.InvalidUnmarshalError, *gjson.UnmarshalTypeError, *gjson.MarshalerError, *gjson.UnsupportedTypeError, *gjson.UnsupportedValueError, *gjson.SyntaxError, *gjson.PathError:
 		response.Code = fiber.StatusBadRequest
 		response.Status = "Invalid JSON"
