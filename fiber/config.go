@@ -14,6 +14,11 @@ func GenerateConfig() fiber.Config {
 		JSONEncoder:  gojson.Marshal,
 		ErrorHandler: ErrHandler,
 	}
+
+	if os.Getenv("DEV") == "true" {
+		return config
+	}
+
 	if maxproc := os.Getenv("RUNTIME"); os.Getenv("PREFORK") == "true" {
 		intmax := 2
 		if maxproc != "" {
