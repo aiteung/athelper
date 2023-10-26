@@ -24,9 +24,5 @@ func ParseAndValidatePlayGround[T any](body []byte, data *T) (err error) {
 		return
 	}
 	err = playval.New().Struct(data)
-	if err != nil {
-		err = err.(playval.ValidationErrors)
-		return
-	}
 	return
 }
