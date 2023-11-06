@@ -6,6 +6,7 @@ import (
 	gjson "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gookit/validate"
+	"log"
 	"strings"
 )
 
@@ -95,12 +96,16 @@ func ErrHandler(ctx *fiber.Ctx, err error) error {
 		}
 		response.Code = fiber.StatusBadRequest
 		response.Status = vb.String()
+	case *validator.InvalidValidationError:
+		response.Code = fiber.StatusBadRequest
+		response.Status = e.Error()
 	case *gjson.InvalidUnmarshalError, *gjson.UnmarshalTypeError, *gjson.MarshalerError, *gjson.UnsupportedTypeError, *gjson.UnsupportedValueError, *gjson.SyntaxError, *gjson.PathError:
 		response.Code = fiber.StatusBadRequest
 		response.Status = "Invalid JSON"
 	default:
 		response.Code = fiber.StatusInternalServerError
 		response.Status = "Internal Server Error"
+		log.Printf("\nInternal Error : %+v\n", err)
 	}
 	return response.WriteResponseBody(ctx)
 }
