@@ -26,3 +26,16 @@ func ParseAndValidatePlayGround[T any](body []byte, data *T) (err error) {
 	err = playval.New().Struct(data)
 	return
 }
+
+func ValidatePlayGround[T any](data *T) (err error) {
+	err = playval.New().Struct(data)
+	return
+}
+
+func ValidateGookit[T any](data *T) (err error) {
+	v := goval.Struct(data)
+	if !v.Validate() {
+		return v.Errors
+	}
+	return
+}
